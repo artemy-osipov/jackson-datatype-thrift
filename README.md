@@ -1,5 +1,7 @@
 Jackson datatype module to support JSON serialization of Thrift objects
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b6fc3f219d9e41cc8efd4daa7ba329ee)](https://www.codacy.com/manual/osipov.artemy/jackson-datatype-thrift?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=artemy-osipov/jackson-datatype-thrift&amp;utm_campaign=Badge_Grade)
+
 ### Maven dependency
 
 To use module on Maven-based projects, use following dependency:
