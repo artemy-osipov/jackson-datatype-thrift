@@ -1,0 +1,15 @@
+plugins {
+    id 'org.jruyi.thrift' version '0.4.1'
+}
+
+compileThrift {
+    generator 'java', 'generated_annotations=suppress'
+}
+
+compileJava {
+    options.compilerArgs << '-parameters'
+}
+
+dependencies {
+    api 'org.apache.thrift:libthrift:0.12.0'
+}
