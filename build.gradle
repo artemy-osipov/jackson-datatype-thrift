@@ -1,6 +1,9 @@
 plugins {
-    id 'nebula.release' version '11.0.0'
     id 'groovy'
+    id 'maven-publish'
+    id 'nebula.release' version '12.1.0'
+    id 'com.jfrog.bintray' version '1.8.4'
+    id 'com.github.ben-manes.versions' version '0.25.0'
 }
 
 group = 'io.github.artemy.osipov.thrift'
@@ -22,4 +25,42 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.codehaus.groovy:groovy-all:2.5.7'
     testImplementation project(':thrift-example')
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['maven']
+    pkg {
+        repo = 'oss'
+        name = project.name
+        licenses = ['MIT']
+        desc = 'Jackson datatype module to support JSON serialization of Thrift objects'
+        websiteUrl = 'https://github.com/artemy-osipov/jackson-datatype-thrift'
+        issueTrackerUrl = 'https://github.com/artemy-osipov/jackson-datatype-thrift/issues'
+        vcsUrl = 'https://github.com/artemy-osipov/jackson-datatype-thrift.git'
+
+        githubRepo = 'artemy-osipov/jackson-datatype-thrift'
+        githubReleaseNotesFile = 'README.md'
+    }
 }
