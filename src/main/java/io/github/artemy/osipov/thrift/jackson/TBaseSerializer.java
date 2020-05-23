@@ -10,7 +10,7 @@ import org.apache.thrift.meta_data.FieldMetaData;
 
 import java.io.IOException;
 
-public class ThriftSerializer extends JsonSerializer<TBase> {
+public class TBaseSerializer extends JsonSerializer<TBase> {
 
     @Override
     public void serialize(TBase value, JsonGenerator jgen, SerializerProvider provider) throws IOException {

@@ -17,3 +17,8 @@ enum SomeEnum {
     ENUM_1
     ENUM_2
 }
+
+union SomeUnion {
+  1: SomeEnum enumField
+  2: SomeInnerStruct structField
+}
