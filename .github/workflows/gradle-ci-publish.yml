@@ -1,0 +1,26 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    container:
+      image:  thrift:0.12
+    steps:
+      - run: |
+          apt update
+          apt install -y git
+      - uses: actions/checkout@v1 # v1 has support for git 2.17
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - uses: eskatos/gradle-command-action@v1
+        env:
+          BINTRAY_USER: ${{secrets.BINTRAY_USER}}
+          BINTRAY_KEY: ${{secrets.BINTRAY_KEY}}
+        with:
+          arguments: test bintrayUpload -Prelease.useLastTag=true
