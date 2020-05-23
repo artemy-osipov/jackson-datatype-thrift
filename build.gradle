@@ -1,21 +1,29 @@
 plugins {
     id 'groovy'
     id 'maven-publish'
-    id 'nebula.release' version '12.1.0'
-    id 'com.jfrog.bintray' version '1.8.4'
-    id 'com.github.ben-manes.versions' version '0.25.0'
+    id 'nebula.release' version '15.0.1'
+    id 'com.jfrog.bintray' version '1.8.5'
+    id 'com.github.ben-manes.versions' version '0.28.0'
 }
 
 group = 'io.github.artemy.osipov.thrift'
 
 allprojects {
     apply plugin: 'java-library'
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 
     repositories {
         jcenter()
     }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 dependencies {
@@ -27,22 +35,10 @@ dependencies {
     testImplementation project(':thrift-example')
 }
 
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allJava
-    archiveClassifier = 'sources'
-}
-
-task javadocJar(type: Jar) {
-    from javadoc
-    archiveClassifier = 'javadoc'
-}
-
 publishing {
     publications {
         maven(MavenPublication) {
             from components.java
-            artifact sourcesJar
-            artifact javadocJar
         }
     }
 }
