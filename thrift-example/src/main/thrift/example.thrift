@@ -1,24 +1,31 @@
 namespace java io.github.artemy.osipov.thrift.example
 
-struct SomeStruct {
+struct TestComplexStruct {
     1: string stringField
     2: bool boolField
-    3: i32 intField
-    4: SomeEnum enumField
-    5: SomeInnerStruct complexField
+    3: byte byteField
+    4: i16 i16Field
+    5: i32 i32Field
+    6: i64 i64Field
+    7: double doubleField
+    8: TestEnum enumField
+    9: binary binaryField
+    10: TestSimpleStruct structField
+    12: list<TestSimpleStruct> listStructField
+    13: TestUnion unionField
 }
 
-struct SomeInnerStruct {
-    1: string f1
+struct TestSimpleStruct {
+    1: bool f1
     2: string f2
 }
 
-enum SomeEnum {
+enum TestEnum {
     ENUM_1
     ENUM_2
 }
 
-union SomeUnion {
-  1: SomeEnum enumField
-  2: SomeInnerStruct structField
+union TestUnion {
+  1: TestEnum enumField
+  2: TestSimpleStruct structField
 }

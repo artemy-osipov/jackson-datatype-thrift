@@ -11,5 +11,5 @@ compileJava {
 }
 
 dependencies {
-    api 'org.apache.thrift:libthrift:0.12.0'
+    api 'org.apache.thrift:libthrift:0.13.0'
 }

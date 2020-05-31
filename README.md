@@ -1,4 +1,4 @@
-Jackson datatype module to support JSON serialization of Thrift objects
+Jackson datatype module to support JSON serialization/deserialization of Thrift objects
 
 [![Download](https://api.bintray.com/packages/aosipov/oss/jackson-datatype-thrift/images/download.svg)](https://bintray.com/aosipov/oss/jackson-datatype-thrift/_latestVersion)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b6fc3f219d9e41cc8efd4daa7ba329ee)](https://www.codacy.com/manual/osipov.artemy/jackson-datatype-thrift?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=artemy-osipov/jackson-datatype-thrift&amp;utm_campaign=Badge_Grade)
@@ -49,7 +49,7 @@ enum SomeEnum {
 serialization will be:
 
 ```java
-SomeStruct some = new SomeStruct()
+SomeStruct thrift = new SomeStruct()
                 .setStringField("s1")
                 .setBoolField(true)
                 .setIntField(1)
@@ -59,15 +59,44 @@ SomeStruct some = new SomeStruct()
                         .setF2("f2")
                 );
 
-String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(some);
-assert json.equals("{\n" +
-                "  \"stringField\" : \"s1\",\n" +
-                "  \"boolField\" : true,\n" +
-                "  \"intField\" : 1,\n" +
-                "  \"enumField\" : \"ENUM_1\",\n" +
-                "  \"complexField\" : {\n" +
-                "    \"f1\" : \"f1\",\n" +
-                "    \"f2\" : \"f2\"\n" +
-                "  }\n" +
-                "}");
+String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(thrift);
+assert json.equals("""
+                {
+                  "stringField": "s1",
+                  "boolField": true,
+                  "intField": 1,
+                  "enumField": "ENUM_1",
+                  "complexField": {
+                    "f1": "f1",
+                    "f2": "f2"
+                  }
+                }""");
+```
+
+deserialization will be:
+
+```java
+String json = """
+              {
+                "stringField": "s1",
+                "boolField": true,
+                "intField": 1,
+                "enumField": "ENUM_1",
+                "complexField": {
+                  "f1": "f1",
+                  "f2": "f2"
+                }
+               }""";
+
+String thrift = mapper.readValue(json, SomeStruct.class);
+assert thrift.equals(new SomeStruct()
+                     .setStringField("s1")
+                     .setBoolField(true)
+                     .setIntField(1)
+                     .setEnumField(SomeEnum.ENUM_1)
+                     .setComplexField(
+                       new SomeInnerStruct()
+                         .setF1("f1")
+                         .setF2("f2")
+                     ));
 ```

@@ -7,6 +7,7 @@ import org.apache.thrift.TUnion;
 public class ThriftModule extends SimpleModule {
 
     public ThriftModule() {
+        _deserializers = new ThriftDeserializers();
         addSerializer(TBase.class, new TBaseSerializer());
         addSerializer(TUnion.class, new TUnionSerializer());
     }
