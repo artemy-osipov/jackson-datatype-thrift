@@ -80,6 +80,10 @@ public class TBaseDeserializer<T extends TBase<?, ?>> extends StdNodeBasedDeseri
     }
 
     private <P> P resolveJsonNode(DeserializationContext ctxt, JsonNode value, Type type) throws IOException {
+        if (value.isNull()) {
+            return null;
+        }
+
         JavaType javaType = ctxt.getTypeFactory().constructType(type);
         JsonDeserializer<Object> deserializer = ctxt.findRootValueDeserializer(javaType);
 

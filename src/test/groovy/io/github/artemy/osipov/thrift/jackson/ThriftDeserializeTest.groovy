@@ -24,6 +24,16 @@ class ThriftDeserializeTest {
     }
 
     @Test
+    void "should deserialize null values as none"() {
+        def res = mapper.readValue('{ "boolField": null, "enumField": null }', TestComplexStruct)
+
+        assert res.enumField == null
+        assert !res.setEnumField
+        assert !res.boolField
+        assert !res.setBoolField
+    }
+
+    @Test
     void "should deserialize list thrift struct from json"() {
         def res = mapper.readValue(
                 "[${jsonSimpleStruct()}, ${jsonSimpleStruct()}]",
