@@ -14,7 +14,7 @@ import org.apache.thrift.meta_data.FieldMetaData;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,7 +37,7 @@ public class TBaseSerializer extends JsonSerializer<TBase> {
     }
 
     private Map<String, JsonNode> extractFields(TBase value, ObjectMapper mapper) {
-        Map<String, JsonNode> accum = new HashMap<>();
+        Map<String, JsonNode> accum = new LinkedHashMap<>();
         fillFields(accum, value.getClass(), value, mapper);
         return accum;
     }

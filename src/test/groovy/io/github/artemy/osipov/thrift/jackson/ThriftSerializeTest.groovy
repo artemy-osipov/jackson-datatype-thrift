@@ -22,6 +22,13 @@ class ThriftSerializeTest {
     }
 
     @Test
+    void "should keep order while serialize thrift struct to json"() {
+        def res = mapper.valueToTree(thriftComplexStruct())
+
+        assert res.toString() == mapper.readTree(jsonComplexStruct()).toString()
+    }
+
+    @Test
     void "should serialize list thrift struct to json"() {
         def thrift = [thriftSimpleStruct(), thriftSimpleStruct()]
 

@@ -59,7 +59,6 @@ class TestData {
 
     static String jsonComplexStruct() {
         def thrift = thriftComplexStruct()
-        thrift.getMetaClass()
         """
           {
             "stringField": "$thrift.stringField",
