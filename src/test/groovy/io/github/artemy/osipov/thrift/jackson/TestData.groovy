@@ -29,8 +29,37 @@ class TestData {
         new TestSimpleStruct(true, 'f2')
     }
 
+    static TestExtendedStruct thriftExtendedStruct() {
+        def baseThrift = thriftSimpleStruct()
+        new TestExtendedStruct().tap {
+            f1 = baseThrift.f1
+            f2 = baseThrift.f2
+            extendedString = 'extendedString'
+            extendedBool = true
+            extendedDTO = new TestExtendedStruct.ExtendedDTO().tap {
+                dtoInt = 42
+            }
+        }
+    }
+
+    static String jsonExtendedStruct() {
+        def thrift = thriftExtendedStruct()
+        """
+          {
+            "f1": $thrift.f1,
+            "f2": "$thrift.f2",
+            "extendedString": "$thrift.extendedString",
+            "extendedBool": $thrift.extendedBool,
+            "extendedDTO": {
+              "dtoInt": $thrift.extendedDTO.dtoInt
+            }
+          }
+        """
+    }
+
     static String jsonComplexStruct() {
         def thrift = thriftComplexStruct()
+        thrift.getMetaClass()
         """
           {
             "stringField": "$thrift.stringField",

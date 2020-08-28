@@ -6,6 +6,7 @@ import io.github.artemy.osipov.thrift.example.TestEnum
 import org.junit.jupiter.api.Test
 
 import static io.github.artemy.osipov.thrift.jackson.TestData.*
+import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
 
 class ThriftSerializeTest {
 
@@ -17,7 +18,7 @@ class ThriftSerializeTest {
     void "should serialize complex thrift struct to json"() {
         def res = mapper.valueToTree(thriftComplexStruct())
 
-        assert res.toString() == mapper.readTree(jsonComplexStruct()).toString()
+        assertThatJson(res) isEqualTo jsonComplexStruct()
     }
 
     @Test
@@ -26,12 +27,12 @@ class ThriftSerializeTest {
 
         def res = mapper.valueToTree(thrift)
 
-        assert res == mapper.readTree("""
+        assertThatJson(res) isEqualTo """
             [
               ${jsonSimpleStruct()},         
               ${jsonSimpleStruct()}         
             ]
-        """)
+        """.toString()
     }
 
     @Test
@@ -42,11 +43,11 @@ class ThriftSerializeTest {
 
         def res = mapper.valueToTree(thrift)
 
-        assert res == mapper.readTree("""
+        assertThatJson(res) isEqualTo """
             {
               "enumField": "${TestEnum.ENUM_2}"
             }
-        """)
+        """.toString()
     }
 
     @Test
@@ -57,11 +58,11 @@ class ThriftSerializeTest {
 
         def res = mapper.valueToTree(thrift)
 
-        assert res == mapper.readTree("""
+        assertThatJson(res) isEqualTo """
             {
               "structField": ${jsonSimpleStruct()}
             }
-        """)
+        """.toString()
     }
 
     @Test
@@ -70,6 +71,15 @@ class ThriftSerializeTest {
 
         def res = mapper.valueToTree(thrift)
 
-        assert res == mapper.readTree('{}')
+        assertThatJson(res) isEqualTo '{}'
+    }
+
+    @Test
+    void "should serialize extended thrift to json"() {
+        def extendedThrift = thriftExtendedStruct()
+
+        def res = mapper.valueToTree(extendedThrift)
+
+        assertThatJson(res) isEqualTo jsonExtendedStruct()
     }
 }
