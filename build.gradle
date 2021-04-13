@@ -74,7 +74,7 @@ signing {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        maven(MavenPublication) {
             pom {
                 name = 'jackson-datatype-thrift'
                 description = 'Jackson datatype module to support JSON serialization/deserialization of Thrift objects'
