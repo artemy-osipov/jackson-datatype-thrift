@@ -1,6 +1,6 @@
 Jackson datatype module to support JSON serialization/deserialization of Thrift objects
 
-[![Download](https://api.bintray.com/packages/aosipov/oss/jackson-datatype-thrift/images/download.svg)](https://bintray.com/aosipov/oss/jackson-datatype-thrift/_latestVersion)
+![Maven Central](https://img.shields.io/maven-central/v/io.github.artemy-osipov.thrift/jackson-datatype-thrift)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b6fc3f219d9e41cc8efd4daa7ba329ee)](https://www.codacy.com/manual/osipov.artemy/jackson-datatype-thrift?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=artemy-osipov/jackson-datatype-thrift&amp;utm_campaign=Badge_Grade)
 
 ### Maven dependency
