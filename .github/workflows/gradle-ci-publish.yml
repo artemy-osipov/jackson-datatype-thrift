@@ -20,7 +20,9 @@ jobs:
           java-version: 11
       - uses: eskatos/gradle-command-action@v1
         env:
-          BINTRAY_USER: ${{secrets.BINTRAY_USER}}
-          BINTRAY_KEY: ${{secrets.BINTRAY_KEY}}
+          SONATYPE_USER: ${{secrets.SONATYPE_USER}}
+          SONATYPE_TOKEN: ${{secrets.SONATYPE_TOKEN}}
+          GPG_KEY: ${{secrets.GPG_KEY}}
+          GPG_PASSWORD: ${{secrets.GPG_PASSWORD}}
         with:
-          arguments: test bintrayUpload -Prelease.useLastTag=true
+          arguments: check publishToSonatype closeSonatypeStagingRepository -Prelease.useLastTag=true

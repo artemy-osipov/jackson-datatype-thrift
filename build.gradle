@@ -1,12 +1,13 @@
 plugins {
     id 'groovy'
+    id 'nebula.release' version '15.3.1'
+    id 'com.github.ben-manes.versions' version '0.38.0'
     id 'maven-publish'
-    id 'nebula.release' version '15.1.0'
-    id 'com.jfrog.bintray' version '1.8.5'
-    id 'com.github.ben-manes.versions' version '0.29.0'
+    id 'signing'
+    id 'io.github.gradle-nexus.publish-plugin' version '1.0.0'
 }
 
-group = 'io.github.artemy.osipov.thrift'
+group = 'io.github.artemy-osipov.thrift'
 
 allprojects {
     apply plugin: 'java-library'
@@ -17,7 +18,7 @@ allprojects {
     }
 
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }
 
@@ -53,20 +54,50 @@ publishing {
     }
 }
 
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    publications = ['maven']
-    pkg {
-        repo = 'oss'
-        name = project.name
-        licenses = ['MIT']
-        desc = 'Jackson datatype module to support JSON serialization of Thrift objects'
-        websiteUrl = 'https://github.com/artemy-osipov/jackson-datatype-thrift'
-        issueTrackerUrl = 'https://github.com/artemy-osipov/jackson-datatype-thrift/issues'
-        vcsUrl = 'https://github.com/artemy-osipov/jackson-datatype-thrift.git'
+nexusPublishing {
+    repositories {
+        sonatype {
+            username.set(System.getenv('SONATYPE_USER'))
+            password.set(System.getenv('SONATYPE_TOKEN'))
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
+}
 
-        githubRepo = 'artemy-osipov/jackson-datatype-thrift'
-        githubReleaseNotesFile = 'README.md'
+signing {
+    def signingKey = System.getenv('GPG_KEY')
+    def signingPassword = System.getenv('GPG_PASSWORD')
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'jackson-datatype-thrift'
+                description = 'Jackson datatype module to support JSON serialization/deserialization of Thrift objects'
+                url = 'https://github.com/artemy-osipov/jackson-datatype-thrift'
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'artemy-osipov'
+                        name = 'Artemy Osipov'
+                        email = 'osipov.artemy@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'git@github.com:artemy-osipov/jackson-datatype-thrift.git'
+                    developerConnection = 'git@github.com:artemy-osipov/jackson-datatype-thrift.git'
+                    url = 'https://github.com/artemy-osipov/jackson-datatype-thrift'
+                }
+            }
+        }
     }
 }
