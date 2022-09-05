@@ -80,13 +80,4 @@ class ThriftSerializeTest {
 
         assertThatJson(res) isEqualTo '{}'
     }
-
-    @Test
-    void "should serialize extended thrift to json"() {
-        def extendedThrift = thriftExtendedStruct()
-
-        def res = mapper.valueToTree(extendedThrift)
-
-        assertThatJson(res) isEqualTo jsonExtendedStruct()
-    }
 }

@@ -1,10 +1,10 @@
 plugins {
     id 'groovy'
-    id 'nebula.release' version '15.3.1'
-    id 'com.github.ben-manes.versions' version '0.38.0'
+    id 'nebula.release' version '16.1.0'
+    id 'com.github.ben-manes.versions' version '0.42.0'
     id 'maven-publish'
     id 'signing'
-    id 'io.github.gradle-nexus.publish-plugin' version '1.0.0'
+    id 'io.github.gradle-nexus.publish-plugin' version '1.1.0'
 }
 
 group = 'io.github.artemy-osipov.thrift'
@@ -32,17 +32,13 @@ test {
 }
 
 dependencies {
-    api 'com.fasterxml.jackson.core:jackson-databind:2.9.9'
-    implementation 'org.apache.thrift:libthrift:0.13.0'
+    api 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+    implementation 'org.apache.thrift:libthrift:0.16.0'
 
-    implementation 'org.projectlombok:lombok:1.18.12'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
-
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
-    testImplementation 'org.codehaus.groovy:groovy-test:3.0.5'
-    testImplementation 'net.javacrumbs.json-unit:json-unit-assertj:2.18.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    testImplementation 'org.codehaus.groovy:groovy-test:3.0.12'
+    testImplementation 'net.javacrumbs.json-unit:json-unit-assertj:2.35.0'
     testImplementation project(':thrift-example')
 }
 

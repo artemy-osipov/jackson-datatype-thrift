@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jruyi.thrift' version '0.4.1'
+    id 'org.jruyi.thrift' version '0.4.2'
 }
 
 compileThrift {
@@ -11,5 +11,5 @@ compileJava {
 }
 
 dependencies {
-    api 'org.apache.thrift:libthrift:0.13.0'
+    api 'org.apache.thrift:libthrift:0.16.0'
 }
