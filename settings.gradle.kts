@@ -4,5 +4,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'jackson-datatype-thrift'
-include 'thrift-example'
+rootProject.name = "jackson-datatype-thrift"
+include("thrift-example")

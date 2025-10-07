@@ -13,12 +13,13 @@ import org.apache.thrift.meta_data.FieldMetaData;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class TBaseDeserializer<T extends TBase<?, ?>> extends StdNodeBasedDeserializer<T> {
+public class TBaseDeserializer<T extends TBase<T, F>, F extends TFieldIdEnum> extends StdNodeBasedDeserializer<T> {
 
     private final Class<T> thriftClass;
 
@@ -67,29 +68,28 @@ public class TBaseDeserializer<T extends TBase<?, ?>> extends StdNodeBasedDeseri
     }
 
     private Type resolveThriftFieldType(String field) throws NoSuchMethodException {
-        Method getter;
-        try {
-            String getterName = "get" + field.substring(0, 1).toUpperCase() + field.substring(1);
-            getter = thriftClass.getDeclaredMethod(getterName);
-        } catch (NoSuchMethodException e) {
-            String getterName = "is" + field.substring(0, 1).toUpperCase() + field.substring(1);
-            getter = thriftClass.getDeclaredMethod(getterName);
-        }
-
-        return getter.getGenericReturnType();
+        String capitalizedField = Character.toUpperCase(field.charAt(0)) + field.substring(1);
+        String getMethod = "get" + capitalizedField;
+        String isMethod = "is" + capitalizedField;
+        return Arrays.stream(thriftClass.getDeclaredMethods())
+                .filter(method -> method.getName().equals(getMethod) || method.getName().equals(isMethod))
+                .filter(method -> method.getParameterCount() == 0)
+                .findFirst()
+                .orElseThrow(() -> new NoSuchMethodException("getter method for field " + field + " has not found"))
+                .getGenericReturnType();
     }
 
-    private <P> P resolveJsonNode(DeserializationContext ctxt, JsonNode value, Type type) throws IOException {
+    private <P> P resolveJsonNode(DeserializationContext ctx, JsonNode value, Type type) throws IOException {
         if (value.isNull()) {
             return null;
         }
 
-        JavaType javaType = ctxt.getTypeFactory().constructType(type);
-        JsonDeserializer<Object> deserializer = ctxt.findRootValueDeserializer(javaType);
+        JavaType javaType = ctx.getTypeFactory().constructType(type);
+        JsonDeserializer<Object> deserializer = ctx.findRootValueDeserializer(javaType);
 
-        JsonParser parser = value.traverse(ctxt.getParser().getCodec());
+        JsonParser parser = value.traverse(ctx.getParser().getCodec());
         parser.nextToken();
 
-        return (P) deserializer.deserialize(parser, ctxt);
+        return (P) deserializer.deserialize(parser, ctx);
     }
 }
