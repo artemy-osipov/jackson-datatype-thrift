@@ -9,7 +9,7 @@ To use module on Maven-based projects, use following dependency:
 
 ```xml
 <dependency>
-  <groupId>io.github.artemy.osipov.thrift</groupId>
+  <groupId>io.github.artemy-osipov.thrift</groupId>
   <artifactId>jackson-datatype-thrift</artifactId>
   <version>0.1.0</version> // or any newer version
 </dependency>   
