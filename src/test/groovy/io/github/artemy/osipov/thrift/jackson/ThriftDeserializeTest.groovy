@@ -1,7 +1,7 @@
 package io.github.artemy.osipov.thrift.jackson
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.core.type.TypeReference
+import tools.jackson.databind.json.JsonMapper
 import io.github.artemy.osipov.thrift.example.TestComplexStruct
 import io.github.artemy.osipov.thrift.example.TestEnum
 import io.github.artemy.osipov.thrift.example.TestSimpleStruct
@@ -12,9 +12,9 @@ import static io.github.artemy.osipov.thrift.jackson.TestData.*
 
 class ThriftDeserializeTest {
 
-    def mapper = new ObjectMapper().tap {
-        registerModule(new ThriftModule())
-    }
+    def mapper = JsonMapper.builder()
+            .addModule(new ThriftModule())
+            .build()
 
     @Test
     void "should deserialize complex thrift struct from json"() {

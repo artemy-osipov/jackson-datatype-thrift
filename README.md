@@ -1,5 +1,7 @@
 Jackson datatype module to support JSON serialization/deserialization of Thrift objects
 
+Requires Jackson 3.x (tools.jackson) and Java 17+.
+
 ![Maven Central](https://img.shields.io/maven-central/v/io.github.artemy-osipov.thrift/jackson-datatype-thrift)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b6fc3f219d9e41cc8efd4daa7ba329ee)](https://www.codacy.com/manual/osipov.artemy/jackson-datatype-thrift?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=artemy-osipov/jackson-datatype-thrift&amp;utm_campaign=Badge_Grade)
 
@@ -20,8 +22,9 @@ To use module on Maven-based projects, use following dependency:
 To use thrift datatype you will need to register the module:
 
 ```java
-ObjectMapper mapper = new ObjectMapper();
-mapper.registerModule(new ThriftModule());
+JsonMapper mapper = JsonMapper.builder()
+    .addModule(new ThriftModule())
+    .build();
 ```
 
 For thrift with scheme:

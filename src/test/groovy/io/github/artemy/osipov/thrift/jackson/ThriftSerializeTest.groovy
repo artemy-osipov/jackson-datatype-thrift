@@ -1,6 +1,6 @@
 package io.github.artemy.osipov.thrift.jackson
 
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.json.JsonMapper
 import io.github.artemy.osipov.thrift.example.TestUnion
 import io.github.artemy.osipov.thrift.example.TestEnum
 import org.junit.jupiter.api.Test
@@ -10,15 +10,15 @@ import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson
 
 class ThriftSerializeTest {
 
-    def mapper = new ObjectMapper().tap {
-        registerModule(new ThriftModule())
-    }
+    def mapper = JsonMapper.builder()
+            .addModule(new ThriftModule())
+            .build()
 
     @Test
     void "should serialize complex thrift struct to json"() {
         def res = mapper.valueToTree(thriftComplexStruct())
 
-        assertThatJson(res) isEqualTo jsonComplexStruct()
+        assertThatJson(res.toString()) isEqualTo jsonComplexStruct()
     }
 
     @Test
@@ -34,7 +34,7 @@ class ThriftSerializeTest {
 
         def res = mapper.valueToTree(thrift)
 
-        assertThatJson(res) isEqualTo """
+        assertThatJson(res.toString()) isEqualTo """
             [
               ${jsonSimpleStruct()},         
               ${jsonSimpleStruct()}         
@@ -50,7 +50,7 @@ class ThriftSerializeTest {
 
         def res = mapper.valueToTree(thrift)
 
-        assertThatJson(res) isEqualTo """
+        assertThatJson(res.toString()) isEqualTo """
             {
               "enumField": "${TestEnum.ENUM_2}"
             }
@@ -65,7 +65,7 @@ class ThriftSerializeTest {
 
         def res = mapper.valueToTree(thrift)
 
-        assertThatJson(res) isEqualTo """
+        assertThatJson(res.toString()) isEqualTo """
             {
               "structField": ${jsonSimpleStruct()}
             }
@@ -78,6 +78,6 @@ class ThriftSerializeTest {
 
         def res = mapper.valueToTree(thrift)
 
-        assertThatJson(res) isEqualTo '{}'
+        assertThatJson(res.toString()) isEqualTo '{}'
     }
 }

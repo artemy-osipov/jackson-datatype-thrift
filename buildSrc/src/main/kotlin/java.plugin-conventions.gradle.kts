@@ -6,8 +6,8 @@ plugins {
 group = rootProject.group
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 repositories {
@@ -24,9 +24,9 @@ tasks {
 }
 
 dependencies {
-    api("org.apache.thrift:libthrift:0.20.0")
+    api("org.apache.thrift:libthrift:0.23.0")
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.14.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:6.0.3")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    testImplementation("org.apache.groovy:groovy:4.0.28")
+    testImplementation("org.apache.groovy:groovy:5.0.6")
 }

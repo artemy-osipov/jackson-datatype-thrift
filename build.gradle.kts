@@ -3,7 +3,7 @@ plugins {
     `maven-publish`
     signing
     id("com.netflix.nebula.release") version("21.0.0")
-    id("com.github.ben-manes.versions") version("0.53.0")
+    id("com.github.ben-manes.versions") version("0.54.0")
     id("io.github.gradle-nexus.publish-plugin") version("2.0.0")
 }
 
@@ -15,9 +15,9 @@ java {
 }
 
 dependencies {
-    api("com.fasterxml.jackson.core:jackson-databind:2.20.0")
+    api("tools.jackson.core:jackson-databind:3.1.3")
 
-    testImplementation("net.javacrumbs.json-unit:json-unit-assertj:4.1.1")
+    testImplementation("net.javacrumbs.json-unit:json-unit-assertj:5.1.1")
     testImplementation(project(":thrift-example"))
 }
 
